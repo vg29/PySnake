@@ -18,7 +18,7 @@ font = pygame.font.SysFont(None,25)
 
 def snake(snakelist,block_size):
     for XnY in snakelist:
-        gameDisplay.fill((155,155,155), rect=[XnY[0],XnY[1],block_size,block_size])
+        gameDisplay.fill((255,0,0), rect=[XnY[0],XnY[1],block_size,block_size])
 
 
 def text_objects(text,color):
@@ -132,7 +132,7 @@ def gameloop():
         lead_x = (lead_x + lead_x_change) % display_width
         lead_y = (lead_y + lead_y_change) % display_height
 
-        gameDisplay.fill((155,0,0))
+        gameDisplay.fill((255,255,255))
         pygame.draw.rect(gameDisplay,(0,255,0),[randomAppleX,randomAppleY,appleSize,appleSize])
         snakehead = []
         snakehead.append(lead_x)
@@ -149,8 +149,8 @@ def gameloop():
         
         pygame.display.update()
 
-        if(lead_x >= randomAppleX and lead_x <= randomAppleX + appleSize):
-            if(lead_y >= randomAppleY and lead_y <= randomAppleY + appleSize):
+        if(lead_x > randomAppleX and lead_x < randomAppleX + appleSize):
+            if(lead_y > randomAppleY and lead_y < randomAppleY + appleSize):
                 snakelength +=1
                 randomAppleX = random.randrange(0,(display_width-block_size))
                 randomAppleX = round(randomAppleX/10.0)*10.0
