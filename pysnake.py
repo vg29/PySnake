@@ -12,7 +12,7 @@ icon = pygame.image.load('snake.png')
 pygame.display.set_icon(icon)
 #snaketail = pygame.image.load('tail.png')
 appleimg = pygame.image.load('apple.png')
-highscore = 0
+#scores = []
 
 
 #pygame.display.update()
@@ -23,6 +23,30 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont(None,25)
 lfont = pygame.font.SysFont(None,50)
 
+
+def pause():
+
+    paused = True
+
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+                elif event.key == pygame.K_s:
+                    paused = False
+        
+                    
+        #gameDisplay.fill((255,255,255))
+        message_screen("Paused!!",(255,0,0),-50,"med")
+        message_screen("press 's' to play again 'q' to quit",(0,0,0),50)
+        pygame.display.update()
+        clock.tick(5)      
+        
 def score(score):
     text = font.render("Score: "+str(score), True, (0,0,0))
     gameDisplay.blit(text,[550,0])
@@ -152,11 +176,14 @@ def gameloop():
                 elif event.key == pygame.K_DOWN:
                     lead_y_change =  block_size
                     lead_x_change = 0
+                elif event.key == pygame.K_p:
+                    pause()
 
         lead_x = (lead_x + lead_x_change) % display_width
         lead_y = (lead_y + lead_y_change) % display_height
 
         gameDisplay.fill((255,255,255))
+        message_screen("Press 'p' to Pause",(0,0,0),-170)
         #pygame.draw.rect(gameDisplay,(0,255,0),[randomAppleX,randomAppleY,appleSize,appleSize])
         gameDisplay.blit(appleimg,(randomAppleX,randomAppleY))
         snakehead = []
@@ -171,7 +198,6 @@ def gameloop():
                 gameOver = True
 
         snake(snakelist,block_size)
-        
         score(snakelength-3)
         pygame.display.update()
 
