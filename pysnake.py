@@ -1,5 +1,6 @@
 import pygame
 import random
+import shelve
 
 pygame.init()
 #global gameExit
@@ -23,7 +24,34 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont(None,25)
 lfont = pygame.font.SysFont(None,50)
 
+def checkscore(score):
 
+    scorefile = open('score.txt','r+')
+    scorefile.seek(0)
+    high_score = int(scorefile.read())
+
+    if score > high_score:
+        scorefile.seek(0)
+        hi_score = str(score)
+        scorefile.write(hi_score)
+
+    scorefile.close()
+        
+        
+
+def showscore():
+    try:
+        readfile = open('score.txt','r')
+        readfile.seek(0)
+        high_score = int(readfile.read())
+        readfile.close()
+    except:
+        high_score = 0
+        
+    text = font.render(" High Score: "+str(high_score), True, (0,0,0))
+    gameDisplay.blit(text,[0,0])
+
+    
 def pause():
 
     paused = True
@@ -199,6 +227,8 @@ def gameloop():
 
         snake(snakelist,block_size)
         score(snakelength-3)
+        checkscore(snakelength-3)
+        showscore()
         pygame.display.update()
 
         if(lead_x > randomAppleX and lead_x < randomAppleX + appleSize) or ((lead_x+block_size) > randomAppleX and (lead_x + block_size) < randomAppleX + appleSize):
